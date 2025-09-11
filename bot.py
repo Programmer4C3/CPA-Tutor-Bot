@@ -1,7 +1,10 @@
 import discord
 import json
 from datetime import datetime
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 token = os.getenv("DISCORD_BOT_TOKEN")
 commandsFile = None
@@ -25,8 +28,33 @@ async def isCommand(Msg):
     if Msg.content[0] == botInfo["commandPrefix"]:
         for i in range(0,len(commands_array)):
             if (Msg.content.lower().split()[0])[1:] == commands_array[i]:
-                await Msg.channel.send(f"You just ran the {commands_array[i]} command")
+                if i == 3:
+                    computation = Msg.content.lower().split()
+                    if len(computation) >= 4:
+                        try:
+                            num1 = int(computation[1])
+                            operator = computation[2]
+                            num2 = int(computation[3])
+                            result = ""
+                            if num1 <= 10 and num2 <= 10:
+                                await Msg.channel.send("Dumbass you can't do basic math?")
+                                return True
+                            if operator == "+":
+                                await Msg.channel.send(f"The answer is: `{num1+num2}`")
+                            elif operator == "-":
+                                await Msg.channel.send(f"The answer is: `{num1-num2}`")
+                            elif operator == "x":
+                                await Msg.channel.send(f"The answer is: `{num1*num2}`")
+                        except ValueError:
+                            await Msg.channel.send("are you sure your [num1] and [num2] are numbers?")
+                    else:
+                        await Msg.channel.send("The correct format is for the command **.compute** is:\n`.compute num1 operator num2`")
+
+                else:
+                    await Msg.channel.send(f"The {commands_array[i]} command is still being coded. Sadly")
                 return True
+            
+            
 
 def getTime():
     currentTime = datetime.now().time()

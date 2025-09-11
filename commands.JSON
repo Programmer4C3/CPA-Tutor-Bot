@@ -37,6 +37,7 @@
     "Commands": [
         "listcmd",
         "listnote",
-        "setprefix"
+        "setprefix",
+        "compute"
     ]
 }
