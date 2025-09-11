@@ -38,6 +38,7 @@
         "listcmd",
         "listnote",
         "setprefix",
-        "compute"
+        "compute",
+        "die"
     ]
 }
