@@ -1,0 +1,42 @@
+{
+    "Greetings": [
+        "hey",
+        "yo",
+        "hello",
+        "hi",
+        "hai",
+        "morning",
+        "good morning",
+        "afternoon",
+        "evening",
+        "hiya",
+        "sup",
+        "what's up",
+        "howdy",
+        "greetings",
+        "hiya",
+        "hey there",
+        "hello there",
+        "hi there"
+    ],
+    "Salutations": [
+        "bye",
+        "goodbye",
+        "see ya",
+        "later",
+        "take care",
+        "peace",
+        "catch you later",
+        "farewell",
+        "see you",
+        "talk to you later",
+        "ciao",
+        "adios",
+        "bye-bye"
+    ],
+    "Commands": [
+        "listcmd",
+        "listnote",
+        "setprefix"
+    ]
+}
