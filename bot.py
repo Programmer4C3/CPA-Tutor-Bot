@@ -1,10 +1,7 @@
 import discord
 import json
 from datetime import datetime
-from dotenv import load_dotenv
 import os
-
-load_dotenv()
 
 token = os.getenv("DISCORD_BOT_TOKEN")
 commandsFile = None
@@ -14,7 +11,7 @@ with open("commands.JSON") as f:
     commandsFile = json.load(f)
 
 with open("botInfo.JSON") as f:
-    botInfo = json.load(f)
+    botInfo = json.load(f) 
 
 if commandsFile == None or botInfo == None or token == None:
     print("File Loading Unsuccessful!")
