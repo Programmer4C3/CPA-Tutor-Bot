@@ -1,0 +1,12 @@
+{
+    "DefaultGuild": {
+        "CommandPrefix": ".",
+        "BotChannel": 0,
+        "WelcomeChannel": 0
+    },
+    "1415320516939481090": {
+        "CommandPrefix": ".",
+        "BotChannel": 0,
+        "WelcomeChannel": 0
+    }
+}
