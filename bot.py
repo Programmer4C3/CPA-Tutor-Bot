@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from dotenv import load_dotenv
 import os
+import sys
 
 load_dotenv()
 
@@ -39,7 +40,7 @@ async def isCommand(Msg):
                             result = "Operation Issue"
                             if num1 <= 10 and num2 <= 10:
                                 await Msg.channel.send("Dumbass you can't do basic math?")
-                                return True
+                                return 1
                             if operator == "+":
                                 result = num1+num2
                             elif operator == "-":
@@ -55,12 +56,12 @@ async def isCommand(Msg):
                 #Die command, it basically kills the running bot (ONLY RUN FOR EMERGENCY)
                 elif i == 4:
                     await Msg.channel.send("You just killed the running process")
-                    return None
+                    return 2
                 else:
                     await Msg.channel.send(f"The {commands_array[i]} command is still being coded. Sadly")
-                return True
+                return 1
         await Msg.channel.send(f"Are you sure that's a proper command?\nRun `listCMD' to display all the commands")
-        return False
+        return 0
             
             
 
@@ -83,10 +84,12 @@ class MyClient(discord.Client):
             if message.author == self.user:
                 return
             
-            if await isCommand(message):
+            commandRunner = await isCommand(message)
+            
+            if commandRunner == 1:
                 print(f'[{getTime()}] {message.author}: {message.content} [CMD]')
-            elif await isCommand(message) == None:
-                quit()
+            elif commandRunner == 2:
+                await self.close()
             else:
                 print(f'[{getTime()}] {message.author}: {message.content} [REG]')
     except Exception as e:
@@ -100,4 +103,7 @@ intents.message_content = True
 
 client = MyClient(intents=intents)
 
-client.run(token)
+try:
+    client.run(token)
+except KeyboardInterrupt:
+    sys.exit(0)
