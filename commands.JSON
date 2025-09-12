@@ -39,6 +39,7 @@
         "listnote",
         "setprefix",
         "compute",
-        "die"
+        "die",
+        "displayconfig"
     ]
 }

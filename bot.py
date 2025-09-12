@@ -28,22 +28,30 @@ if commandsFile == None or guildInfo == None or token == None:
     print("File Loading Unsuccessful!")
     quit()
 
-async def isCommand(Msg):
+async def isCommand(Msg, guildID):
     greetings_array = commandsFile["Greetings"]
     salutations_array = commandsFile["Salutations"]
     commands_array = commandsFile["Commands"]
     
-    if Msg.content[0] == guildInfo["commandPrefix"]:
+    if Msg.content[0] == guildInfo[guildID]["CommandPrefix"]:
+        splitMsg = Msg.content.lower().split()
         for i in range(0,len(commands_array)):
-            if (Msg.content.lower().split()[0])[1:] == commands_array[i]:
-                #Compute Command
-                if i == 3:
-                    computation = Msg.content.lower().split()
-                    if len(computation) >= 4:
+            if (splitMsg[0])[1:] == commands_array[i]:
+                if i == 0:
+                    await Msg.channel.send(f"--- COMMAND LIST ---\nPREFIX IS:{guildInfo[guildID]["CommandPrefix"]}\n`listCMD\ndie\ncompute\nsetPrefix`")
+                elif i == 2:
+                    if len(splitMsg) >= 2 and len(splitMsg[1]) == 1:
+                        updateGuildConfig(guildID,"CommandPrefix",splitMsg[1])
+                        await Msg.channel.send(f"The new command prefix is: `{splitMsg[1]}`")
+                    else:
+                        await Msg.channel.send("The correct format for the command **setPrefix** is:\n`[prefix]setPrefix newPrefix`\nNEW PREFIX HAS TO BE 1 CHARACTER ONLY")
+                elif i == 3: #Compute Command
+                    splitMsg
+                    if len(splitMsg) >= 4:
                         try:
-                            num1 = int(computation[1])
-                            operator = computation[2]
-                            num2 = int(computation[3])
+                            num1 = int(splitMsg[1])
+                            operator = splitMsg[2]
+                            num2 = int(splitMsg[3])
                             result = "Operation Issue"
                             if num1 <= 10 and num2 <= 10:
                                 await Msg.channel.send("Dumbass you can't do basic math?")
@@ -59,7 +67,7 @@ async def isCommand(Msg):
                         except ValueError:
                             await Msg.channel.send("are you sure your [num1] and [num2] are numbers?")
                     else:
-                        await Msg.channel.send("The correct format is for the command **.compute** is:\n`.compute num1 operator num2`")
+                        await Msg.channel.send("The correct format for the command **compute** is:\n`[prefix]compute num1 operator num2`")
                 #Die command, it basically kills the running bot (ONLY RUN FOR EMERGENCY)
                 elif i == 4:
                     return 2
@@ -85,18 +93,23 @@ def saveGuildInfo(newGuildInfo):
         json.dump(newGuildInfo, f, indent=4)
     
 def addGuild(data):
-    currentGuildData = loadGuildInfo()
-    currentGuildData[data] = {
+    global guildInfo
+    guildInfo[data] = {
         "CommandPrefix":".",
         "BotChannel": 0,
         "WelcomeChannel": 0
     }
-    saveGuildInfo(currentGuildData)
+    saveGuildInfo(guildInfo)
 
 def leaveGuild(data):
-    currentGuildData = loadGuildInfo()
-    currentGuildData.pop(data,None)
-    saveGuildInfo(currentGuildData)
+    global guildInfo
+    guildInfo.pop(data,None)
+    saveGuildInfo(guildInfo)
+
+def updateGuildConfig(data, changed, change):
+    global guildInfo
+    guildInfo[data][changed] = change
+    saveGuildInfo(guildInfo)
 
 
 class MyClient(discord.Client):
@@ -122,12 +135,12 @@ class MyClient(discord.Client):
             if message.author == self.user:
                 return
             
-            commandRunner = await isCommand(message)
+            commandRunner = await isCommand(message,str(message.guild.id))
             
             if commandRunner == 1:
                 print(f'[{getTime()}] {message.author}: {message.content} [CMD]')
             elif commandRunner == 2:
-                if message.author.id == 8550831592497479880:
+                if message.author.id == 855083159249747988:
                     await message.channel.send("You have just killed the running process")
                     await self.close()
                 else:
