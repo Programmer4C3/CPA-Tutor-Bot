@@ -62,6 +62,9 @@ async def isCommand(Msg, guildID):
                                 result = num1-num2
                             elif operator == "x":
                                 result = num1*num2
+                            else:
+                                await Msg.channel.send(f"Not a developed operator!")
+                                return 1
                             await Msg.channel.send(f"The answer is: `{result}`")
                             
                         except ValueError:
