@@ -53,9 +53,6 @@ async def isCommand(Msg, guildID):
                             operator = splitMsg[2]
                             num2 = int(splitMsg[3])
                             result = "Operation Issue"
-                            if num1 <= 10 and num2 <= 10:
-                                await Msg.channel.send("Dumbass you can't do basic math?")
-                                return 1
                             if operator == "+":
                                 result = num1+num2
                             elif operator == "-":
@@ -63,6 +60,7 @@ async def isCommand(Msg, guildID):
                             elif operator == "x":
                                 result = num1*num2
                             else:
+                                print("Test Case")
                                 await Msg.channel.send(f"Not a developed operator!")
                                 return 1
                             await Msg.channel.send(f"The answer is: `{result}`")
