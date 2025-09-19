@@ -8,8 +8,4 @@ My name is Abishak Subedi, I am have recently entered first semester in the prog
 Date: September 11, 2025
 
 ## So Far:
-<<<<<<< HEAD
 I've Coded Everything
-=======
-I've Coded Everything
->>>>>>> 34f7d32436dc0014553986c77d70f886c4415f89
